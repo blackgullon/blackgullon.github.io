@@ -15,7 +15,7 @@ var studyCount = 0;
 var tempCourseList = [];
 var preProject = {};
 var maFlag = false;
-var addtimeMaxCount = 10;
+var addtimeMaxCount = 20;
 var updateendMaxCount = 5;
 var addtimeFlagCount = 0;
 var addtimeAllCount = 0;
@@ -82,7 +82,9 @@ function updateEnd(){
         }).then(function(data) {
             if(data.isRecord == false) {
 				updateendFlagCount++;
-				if(updateendFlagCount < updateendMaxCount) updateEnd();
+				if(updateendFlagCount < updateendMaxCount){
+					setTimeout(updateEnd,10000);
+				}
 				else {
 					updateendFlagCount = 0;
 					startStudy();
@@ -320,26 +322,20 @@ function addTimeCount() {
         console.log(data.isRecord);
 		if(data.isRecord == true){
 			currentCourse.studyTimes = currentCourse.studyTimes ? currentCourse.studyTimes: 0;
-			$("#lblresult").html("");
+
 			startStudyProcess();
 		}
 		else {
 			addtimeFlagCount++;
 			if(addtimeFlagCount < addtimeMaxCount) {
-				setTimeout(addTimeCount,5000);
+				setTimeout(addTimeCount,10000);
 				$("#lblresult").html("当前学习课程没有记录，正在重试。。。");
 			}
 			else {
 				currentCourseNum++;
 				addtimeFlagCount = 0;
 				addtimeAllCount++;
-				if(addtimeAllCount < addtimeMaxCount) {
-					startStudy();
-				}
-				else{
-					$("#lblresult").html("课程学时没有记录，请正常学习测试是否能记录。");
-					stopStudy();
-				}			
+				startStudy();
 			}
 			
 		}
