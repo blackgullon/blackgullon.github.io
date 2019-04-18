@@ -31,17 +31,17 @@ function getTotalHours() {
     $.postJSON("/user/getOutTime", {
         year: "2019",
         userId: ""
-    }).then(function(data) {
-        if (data != null) {
+    }).then(function success(data) {
+        if (typeof(data) != "undefined") {
             totalTime = data.totalHours;
             $("#lblTotalTime").html("<font color='red'>" + totalTime + "</font>");
             $("title").text(totalTime);
             if (totalTime >= parseInt($("#iptTime").val())) stopStudy();
         }
-    });
-	setTimeout(function(){ 
-		if(totalTime == -1) getTotalHours();
-	}, 5000);
+		else setTimeout(getTotalHours,5000);
+    },function error(e){
+		setTimeout(getTotalHours,5000);
+	});
 }
 function updateEnd(){
     getStudyTimes = Math.floor(preProject.courseDuration * 60);
@@ -80,6 +80,15 @@ function updateEnd(){
             "signatureEntity": signatureEntity,
             "receive": receive
         }).then(function success(data) {
+			if(typeof(data) == "undefined"){
+				updateendFlagCount++;
+				if(updateendFlagCount < updateendMaxCount){
+					setTimeout(updateEnd,10000);
+				}
+				else {
+					updateendFlagCount = 0;
+				}				
+			}
             if(data.isRecord == false) {
 				updateendFlagCount++;
 				if(updateendFlagCount < updateendMaxCount){
@@ -87,12 +96,10 @@ function updateEnd(){
 				}
 				else {
 					updateendFlagCount = 0;
-					startStudy();
 				}
 			}
-			else{ startStudy(); }
+			else{ updatestudytime(); }
         },function error(e) {
-			setTimeout(startStudy,10000);
 		});
     }
 }
@@ -244,7 +251,7 @@ function init_alreadystudylist(){
         studyStatus: "1",
         year: "2019"
     }).then(function(dataSource) {
-        if (dataSource != null || dataSource != "undefined") {
+		if (typeof(dataSource) != "undefined" || dataSource != null) {
 			var temptotaltime = 0;
             for(var i=0;i<dataSource.data.length;i++){
 				var tempCourse = {};
@@ -257,11 +264,13 @@ function init_alreadystudylist(){
 				init_alreadystudylist();
 				return;
 			}
+			init_alllist();
         } else {
 			setTimeout(init_alreadystudylist,3000);
-        }
-		init_alllist();
-    });
+        }	
+    },function error(e) {
+		setTimeout(init_alreadystudylist,5000);
+	});
 }
 function init_alllist(){
 	var base = new Base64();
@@ -309,6 +318,27 @@ function init_studylist(){
     $("#courseSelect").html(selectOptions);
 	$("#lblresult").html("数据初始化完毕，可以进行学习了。");
 }
+function nextable(){
+	if(currentCourseNum >= courseList.length){
+		$("#lblresult").html("所有课程已全部学完。");
+		return false;
+	}
+	if (totalTime >= parseInt($("#iptTime").val())){
+		$("#lblresult").html("已学够结束学时，学习停止。");
+		return false;
+	}
+	if($("#End").attr("disabled") == "disabled") return false;
+	return true;
+}
+function startNext(){
+	studyCount = 0;
+    currentPlayTime = 0;
+    currentCourseNum++;
+	preProject = project;
+	getTotalHours();
+	if(nextable() == false) return;
+	startStudy();
+}
 function startStudy() {
     currentCourse = courseList[currentCourseNum];
     currentTotalTime = currentCourse.courseDuration * 60;
@@ -323,8 +353,11 @@ function addTimeCount() {
         var code = data.code;
         console.log(data.isRecord);
 		if(data.isRecord == true){
+			if(addtimeFlagCount>0){
+				addtimeFlagCount = 0;
+				$("#lblresult").html("");
+			}			
 			currentCourse.studyTimes = currentCourse.studyTimes ? currentCourse.studyTimes: 0;
-			$("#lblresult").html("");
 			startStudyProcess();
 		}
 		else {
@@ -334,39 +367,38 @@ function addTimeCount() {
 				$("#lblresult").html("当前学习课程没有记录，正在重试。。。");
 			}
 			else {
-				currentCourseNum++;
 				addtimeFlagCount = 0;
 				addtimeAllCount++;
-				startStudy();
+				startNext();
 			}
 			
 		}
     });
 }
 function startStudyProcess() {
-    window.sendTimer = setInterval(function() {
-        studyCount++;
-        currentPlayTime += speedTimes;
-        studyPercent = parseInt(currentPlayTime / currentTotalTime * 100) == 100 ? 100 : parseInt(currentPlayTime / currentTotalTime * 100);
-        $("#currentPlayTime").html("<font color='red'>" + studyPercent + "%</font>");
-        var recordProgress = getSetLearnTime2();
-        if (currentPlayTime > currentTotalTime) {
-            clearInterval(window.sendTimer);
-            studyCount = 0;
-            currentPlayTime = 0;
-            currentCourseNum++;
-			preProject = project;
-            updateEnd();
-        } 
-        else if (currentPlayTime % recordProgress == 0) {
-			if (totalTime >= parseInt($("#iptTime").val())) stopStudy();
-            StudyProgress();
-		}
-    },
-    1000);
+	if(nextable() == false) {
+		stopStudy();
+		return;
+	}
+    studyCount++;
+    currentPlayTime += speedTimes;
+    studyPercent = parseInt(currentPlayTime / currentTotalTime * 100) == 100 ? 100 : parseInt(currentPlayTime / currentTotalTime * 100);
+    $("#currentPlayTime").html("<font color='red'>" + studyPercent + "%</font>");
+    var recordProgress = getSetLearnTime2();
+	if (currentPlayTime % recordProgress == 0) {		
+        StudyProgress();
+	}
+    if (currentPlayTime > currentTotalTime) {
+		studyCount = 0;
+        currentPlayTime = 0;
+		preProject = project;
+        updateEnd();
+		setTimeout(startNext,3000);
+		return;
+    } 
+	else setTimeout(startStudyProcess,1000);
 }
 function stopStudy() {
-    clearInterval(window.sendTimer);
     currentPlayTime = 0;
     studyCount = 0;
 	init_enable();
