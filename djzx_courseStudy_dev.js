@@ -256,7 +256,7 @@ function init_alreadystudylist(){
         } else {
 			setTimeout(init_alreadystudylist,3000);
         }
-	init_alllist();
+		init_alllist();
     });
 }
 function init_alllist(){
@@ -320,12 +320,14 @@ function addTimeCount() {
         console.log(data.isRecord);
 		if(data.isRecord == true){
 			currentCourse.studyTimes = currentCourse.studyTimes ? currentCourse.studyTimes: 0;
+			$("#lblresult").html("");
 			startStudyProcess();
 		}
 		else {
 			addtimeFlagCount++;
 			if(addtimeFlagCount < addtimeMaxCount) {
-				addTimeCount();
+				setTimeout(addTimeCount,5000);
+				$("#lblresult").html("当前学习课程没有记录，正在重试。。。");
 			}
 			else {
 				currentCourseNum++;
