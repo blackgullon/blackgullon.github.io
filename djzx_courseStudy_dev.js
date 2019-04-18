@@ -25,7 +25,7 @@ $(document).ready(function() {
     setTimeout(function(){
 		init_compontent();
 		init_alreadystudylist();
-	},1500);
+	},1000);
 });
 function getTotalHours() {
     $.postJSON("/user/getOutTime", {
