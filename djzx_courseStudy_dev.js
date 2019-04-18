@@ -79,7 +79,7 @@ function updateEnd(){
         $.postJSON("/bintang/updateTimeEnd", {
             "signatureEntity": signatureEntity,
             "receive": receive
-        }).then(function(data) {
+        }).then(function success(data) {
             if(data.isRecord == false) {
 				updateendFlagCount++;
 				if(updateendFlagCount < updateendMaxCount){
