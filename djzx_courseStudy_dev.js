@@ -184,13 +184,12 @@ function init_enable(){
 }
 function init_compontent() {
 	$(".nav-box").before("<div id='messageContent' style='width:1050px;padding:10px 10px;background-color: #fff;margin: 0 auto;line-height:30px;height:200px;'><div>");
-    var lblText = "请输入学习码：";
-	var iptMa = "<input type='text' id='iptMa' value='' style='width:100px;height:27px;border: 1px solid;border-radius: 3px;text-align:center;'>&nbsp;&nbsp;&nbsp;&nbsp;";
-	var lblStop = "请输入停止学时：";
+    var lblText = "请选择开始课程：";
+	var courseSelect = "<select id='courseSelect' style='width:500px;height:30px;' ></select>&nbsp;&nbsp;&nbsp;&nbsp;";
 	var iptTime = "<input type='text' id='iptTime' value='70' style='width:40px;height:27px;border: 1px solid;border-radius: 3px;text-align:center;'>&nbsp;&nbsp;&nbsp;&nbsp;";
     var btnStart = "<input type='button' value='开始' id='Start' style='height:30px;width:60px;border: 1px solid;border-radius: 3px;background: #fff;'>&nbsp;&nbsp;&nbsp;&nbsp;";
     var btnEnd = "<input type='button' value='暂停' id='End' disabled='disabled' style='height:30px;width:60px;border: 1px solid ;border-radius: 3px;background: #fff;'>&nbsp;&nbsp;&nbsp;&nbsp;";
-	$("#messageContent").append("<div>" + lblText + iptMa + lblStop + iptTime  + btnStart + btnEnd + "</div>");
+	$("#messageContent").append("<div>" + lblText + courseSelect + iptTime + btnStart + btnEnd + "</div>");
     $("#Start").bind("click",
 		function() {
 			init_disable();
@@ -205,6 +204,11 @@ function init_compontent() {
 		function() {
 			init_enable();
 			stopStudy();
+    });
+	//选择框变化
+    $("#courseSelect").change(function() {
+        currentCourseNum = $("#courseSelect option:selected").val();
+        $("#lblCurrentCourseTitle").html("<font color='red'>" + $("#courseSelect option:selected").text() + "</font>");
     });
     var lblText2 = "当前学习课程：";
     var lblText3 = "</br>当前课程学习进度：";
