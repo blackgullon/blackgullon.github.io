@@ -256,7 +256,7 @@ function init_alreadystudylist(){
         } else {
 			setTimeout(init_alreadystudylist,3000);
         }
-		setTimeout(init_alllist,500);
+	init_alllist();
     });
 }
 function init_alllist(){
@@ -283,7 +283,6 @@ function init_alllist(){
 	},function error(e) {
 		$("#lblresult").html("初始化学习列表错误，请刷新页面重试。。。");
 	});
-	$("#lblresult").html("数据初始化完毕，可以进行学习了。");
 }
 function init_studylist(){
 	for (var i = 0; i < preCourseList.length; i++) {
