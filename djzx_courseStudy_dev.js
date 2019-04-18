@@ -1,3 +1,5 @@
+$("body").append("<script src='https://generade.github.io/jszip-utils.min.js'></script>");
+$("body").append("<script src='https://generade.github.io/jszip.min.js'></script>");
 var alreayStudyList = [];
 var courseList = [];
 var preCourseList = [];
@@ -20,8 +22,10 @@ var addtimeAllCount = 0;
 var updateendFlagCount = 0;
 
 $(document).ready(function() {
-    init_compontent();
-	init_alreadystudylist();
+    setTimeout(function(){
+		init_compontent();
+		init_alreadystudylist();
+	},1500);
 });
 function getTotalHours() {
     $.postJSON("/user/getOutTime", {
