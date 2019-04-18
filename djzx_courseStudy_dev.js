@@ -91,7 +91,9 @@ function updateEnd(){
 				}
 			}
 			else{ startStudy(); }
-        });
+        },function error(e) {
+			setTimeout(startStudy,10000);
+		});
     }
 }
 function StudyProgress() {
