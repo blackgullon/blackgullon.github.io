@@ -322,7 +322,7 @@ function addTimeCount() {
         console.log(data.isRecord);
 		if(data.isRecord == true){
 			currentCourse.studyTimes = currentCourse.studyTimes ? currentCourse.studyTimes: 0;
-
+			$("#lblresult").html("");
 			startStudyProcess();
 		}
 		else {
