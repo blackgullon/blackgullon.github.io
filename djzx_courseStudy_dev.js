@@ -261,7 +261,7 @@ function init_alreadystudylist(){
 				temptotaltime += dataSource.data[i].courseHour;
 			}
 			if(totalTime - temptotaltime >=50){
-				init_alreadystudylist();
+				setTimeout(init_alreadystudylist,1500);
 				return;
 			}
 			init_alllist();
