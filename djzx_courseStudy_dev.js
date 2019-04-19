@@ -251,9 +251,13 @@ function init_alreadystudylist(){
         studyStatus: "1",
         year: "2019"
     }).then(function(dataSource) {
-		if (typeof(dataSource) != "undefined" || dataSource != null) {
+		if (typeof(dataSource) != "undefined") {
+			if(dataSource.data == null){
+				init_alllit();
+				return;
+			}
 			var temptotaltime = 0;
-            for(var i=0;i<dataSource.data.length;i++){
+                        for(var i=0;i<dataSource.data.length;i++){
 				var tempCourse = {};
 				tempCourse.courseHour = dataSource.data[i].courseHour;
 				tempCourse.courseId = dataSource.data[i].courseId;
