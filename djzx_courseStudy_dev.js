@@ -83,7 +83,7 @@ function updateEnd(){
 			if(typeof(data) == "undefined"){
 				updateendFlagCount++;
 				if(updateendFlagCount < updateendMaxCount){
-					setTimeout(updateEnd,10000);
+					setTimeout(updateEnd,3000);
 				}
 				else {
 					updateendFlagCount = 0;
