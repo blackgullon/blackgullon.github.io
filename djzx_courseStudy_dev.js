@@ -253,7 +253,7 @@ function init_alreadystudylist(){
     }).then(function(dataSource) {
 		if (typeof(dataSource) != "undefined") {
 			if(dataSource.data == null){
-				init_alllit();
+				init_alllist();
 				return;
 			}
 			var temptotaltime = 0;
