@@ -89,7 +89,7 @@ function updateEnd(){
 					updateendFlagCount = 0;
 				}				
 			}
-                       if(data.isRecord == false) {
+            if(data.isRecord == false) {
 				updateendFlagCount++;
 				if(updateendFlagCount < updateendMaxCount){
 					setTimeout(updateEnd,3000);
@@ -99,6 +99,7 @@ function updateEnd(){
 				}
 			}
         },function error(e) {
+			setTimeout(updateEnd,3000);
 		});
     }
 }
@@ -293,7 +294,7 @@ function init_alllist(){
 		}
 		init_studylist();		
 	},function error(e) {
-		$("#lblresult").html("初始化学习列表错误，请刷新页面重试。。。");
+		setTimeout(init_alllist,5000);
 	});
 }
 function init_studylist(){
@@ -348,7 +349,7 @@ function startStudy() {
 }
 function addTimeCount() {
 	$("#lblCurrentCourseTitle").html("<font color='red'>" + courseList[currentCourseNum].courseName + "（时长：" + courseList[currentCourseNum].courseDuration + "分钟|学时：" + courseList[currentCourseNum].courseHour + "）</font>");
-    $.postJSON("/bintang/addTimeCount", currentCourse, ).then(function(data) {
+    $.postJSON("/bintang/addTimeCount", currentCourse, ).then(function success(data) {
         var code = data.code;
         console.log(data.isRecord);
 		if(data.isRecord == true){
@@ -362,7 +363,7 @@ function addTimeCount() {
 		else {
 			addtimeFlagCount++;
 			if(addtimeFlagCount < addtimeMaxCount) {
-				setTimeout(addTimeCount,10000);
+				setTimeout(addTimeCount,5000);
 				$("#lblresult").html("当前学习课程没有记录，正在重试。。。");
 			}
 			else {
@@ -372,7 +373,9 @@ function addTimeCount() {
 			}
 			
 		}
-    });
+    },function error(e){
+		setTimeout(addTimeCount,5000);
+	});
 }
 function startStudyProcess() {
 	if(nextable() == false) {
