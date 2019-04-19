@@ -89,7 +89,7 @@ function updateEnd(){
 					updateendFlagCount = 0;
 				}				
 			}
-            if(data.isRecord == false) {
+                       if(data.isRecord == false) {
 				updateendFlagCount++;
 				if(updateendFlagCount < updateendMaxCount){
 					setTimeout(updateEnd,10000);
@@ -98,7 +98,6 @@ function updateEnd(){
 					updateendFlagCount = 0;
 				}
 			}
-			else{ updatestudytime(); }
         },function error(e) {
 		});
     }
