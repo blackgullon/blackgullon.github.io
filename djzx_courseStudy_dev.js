@@ -255,9 +255,9 @@ function init_alreadystudylist(){
 			if(dataSource.data == null){
 				init_alllist();
 				return;
-			}
+			}			
 			var temptotaltime = 0;
-                        for(var i=0;i<dataSource.data.length;i++){
+            for(var i=0;i<dataSource.data.length;i++){
 				var tempCourse = {};
 				tempCourse.courseHour = dataSource.data[i].courseHour;
 				tempCourse.courseId = dataSource.data[i].courseId;
@@ -278,28 +278,35 @@ function init_alreadystudylist(){
 }
 function init_alllist(){
 	var base = new Base64();
-	var promise = new JSZip.external.Promise(function (resolve, reject) {
-		JSZipUtils.getBinaryContent('https://generade.github.io/list.zip', function(err, data) {
-			if (err) {
-				reject(err);
-			} else {
-				resolve(data);
-			}
+	try{
+		var promise = new JSZip.external.Promise(function (resolve, reject) {
+			JSZipUtils.getBinaryContent('https://generade.github.io/list.zip', function(err, data) {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(data);
+				}
+			});
 		});
-	});
-	promise.then(JSZip.loadAsync).then(function(zip) {   
-		return zip.file("list.txt").async("string"); 
-	}).then(function success(text) { 
-		preCourseList = eval(base.decode(text));
-		if(preCourseList.length == 0){
-			$("#lblresult").html("初始化学习列表错误，自动重试中。。。");
-			setTimeout(init_alllist,3000);
-			return;
-		}
-		init_studylist();		
-	},function error(e) {
-		setTimeout(init_alllist,5000);
-	});
+		promise.then(JSZip.loadAsync).then(function(zip) {   
+			return zip.file("list.txt").async("string"); 
+		}).then(function success(text) { 
+			preCourseList = eval(base.decode(text));
+			if(preCourseList.length == 0){
+				$("#lblresult").html("初始化学习列表错误，自动重试中。。。");
+				setTimeout(init_alllist,3000);
+				return;
+			}
+			init_studylist();		
+		},function error(e) {
+			setTimeout(init_alllist,5000);
+		});
+	}
+	catch(error){
+		$("#lblresult").html("JSZip加载错误，自动重试中。。。");
+		setTimeout(init_alllist,1500);
+	}
+
 }
 function init_studylist(){
 	for (var i = 0; i < preCourseList.length; i++) {
