@@ -1,4 +1,4 @@
-var subtime = (Math.round(Math.random()*60) + 300);
+var subtime = (Math.round(Math.random()*60) + 180);
 $(document).ready(function(){
 	var djsinfo = "<span id='djstime'>剩余 " + subtime + " 秒交卷。</span>";
 	$("#sub").parent().append(djsinfo);
