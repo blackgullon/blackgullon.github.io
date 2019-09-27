@@ -264,7 +264,7 @@ function init_enable(){
 	$("#publishMonth").removeAttr("disabled");
 }
 function init_compontent() {
-	$(".header").append("<div id='messageContent' style='width:1050px;padding:10px 10px;background-color: #fff;margin: 0 auto;line-height:30px;height:140px;'><div>");
+	$(".header").append("<div id='messageContent' style='width:1050px;padding:10px 10px;background-color: #fff;margin: 0 auto;line-height:30px;height:140px;'></div>");
     var lblText = "请选择开始课程：";
 	var courseSelect = "<select id='courseSelect' style='width:500px;height:30px;' ></select>&nbsp;&nbsp;&nbsp;&nbsp;";
 	var publishMonth = "<select id='publishMonth' style='width:80px;height:30px;' ></select>&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -531,9 +531,10 @@ function guid() {
 }
 function openExam(){
 	var message = {};
-	message.type = "create";
 	message.url = 'http://dkt.dtdjzx.gov.cn/static/moni/moni.html?' + baseInfo.publishMonth;
-	chrome.extension.sendMessage(JSON.stringify(message),function(response){});
+	var openE = "<a id='openExam' href='"+message.url+"' target='_blank'>123</a>";
+	$("body").append(openE);
+	document.getElementById("openExam").click();
 }
 
 //*******************************************************************************************
