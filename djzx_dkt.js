@@ -509,9 +509,9 @@ function getSetLearnTime2() {
     } else if (vLength > 300 && vLength <= 600) { 
         return 3 * 60;
     } else if (vLength > 600 && vLength <= 1800) {
-        return 5 * 60;
+        return 3 * 60;
     } else if (vLength > 1800) {
-        return 10 * 60;
+        return 3 * 60;
     }
 }
 function timeFormat(nowTime) {
