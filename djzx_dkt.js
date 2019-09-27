@@ -534,10 +534,6 @@ function openExam(){
 	message.url = 'http://dkt.dtdjzx.gov.cn/static/moni/moni.html?' + baseInfo.publishMonth;
 	chrome.extension.sendMessage(JSON.stringify(message),function(response){});
 }
-chrome.extension.onMessage.addListener(function(response, sender, sendResponse){
-
-});
-
 //*******************************************************************************************
 /**
  * CryptoJS core components.
