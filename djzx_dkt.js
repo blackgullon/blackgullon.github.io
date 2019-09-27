@@ -194,13 +194,14 @@ function haveRead(){
 }
 //finish
 function coursePlay(){
+	var courseType = typeof(project.courseType) == "undefined"?"1":"0";
 	var postData = {
         userId: baseInfo.userInfo.userId,
         courseId: project.id,
         orgId: baseInfo.userInfo.orgId,
         orgCode: baseInfo.userInfo.orgCode,
         orgName: baseInfo.userInfo.orgName,
-        courseType: "1",
+        courseType: courseType,
         playFlag: baseInfo.playFlag
     };
 	var requestUri = "/hours/coursePlay";
