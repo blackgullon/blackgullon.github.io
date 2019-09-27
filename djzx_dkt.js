@@ -265,7 +265,7 @@ function init_enable(){
 }
 function init_compontent() {
 	$(".header").append("<div id='messageContent' style='width:1050px;padding:10px 10px;background-color:#fff;margin: 0 auto;line-height:30px;height:200px;'></div>");
-	$(".header").trigger("create"); 
+	$("#messageContent").css("height","140px");
     var lblText = "请选择开始课程：";
 	var courseSelect = "<select id='courseSelect' style='width:500px;height:30px;' ></select>&nbsp;&nbsp;&nbsp;&nbsp;";
 	var publishMonth = "<select id='publishMonth' style='width:80px;height:30px;' ></select>&nbsp;&nbsp;&nbsp;&nbsp;";
