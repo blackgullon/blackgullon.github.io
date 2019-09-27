@@ -200,7 +200,7 @@ function coursePlay(){
         orgId: baseInfo.userInfo.orgId,
         orgCode: baseInfo.userInfo.orgCode,
         orgName: baseInfo.userInfo.orgName,
-        courseType: "0",
+        courseType: "1",
         playFlag: baseInfo.playFlag
     };
 	var requestUri = "/hours/coursePlay";
