@@ -70,6 +70,7 @@ function updateStudyRecordEnd(){
         userId: baseInfo.userInfo.userId,
         studyTimes: getStudyTimes
     };
+	var courseType = typeof(project.courseType) == "undefined"?"1":"0";
     var timestamp = new Date().getTime();
     var nonce = guid();
     var signatureType = "MD5";
@@ -79,7 +80,7 @@ function updateStudyRecordEnd(){
     var signature=sign("3F1AE863EF8BC2B9251A5526FE1C26BC","B0548940A4131F7D0C82F6B45AE848E0",requestUri,timestamp,nonce,requestParam);
 	var receive = {
 		courseId: project.id,
-		courseType: "1",
+		courseType: courseType,
 		orgCode:baseInfo.userInfo.orgCode,
 		orgId:baseInfo.userInfo.orgId,
 		orgName:baseInfo.userInfo.orgName,
