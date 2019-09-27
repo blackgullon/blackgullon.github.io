@@ -20,18 +20,17 @@ function init_data(){
 			if(allData[i].options[j].checked == true) answer.answer += allData[i].options[j].optionName;
 		}
 		answerList.push(answer);
-	}
-  
-	params = {
-    "userId": userId,
-    "examId": examId,
-    'questionList':answerList,
-    'useTime': yongtime || ''
-	}
+	}	
 }
 
 function jiaojuan(){
-	$.ajax({
+     params = {
+    	"userId": userId,
+    	"examId": examId,
+   	'questionList':answerList,
+    	'useTime': w_yongtime || ''
+      }
+      $.ajax({
       url: "http://dkt.dtdjzx.gov.cn/examination/postExamination",
       type: 'post',
       data:JSON.stringify(params),
