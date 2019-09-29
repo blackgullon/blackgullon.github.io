@@ -272,7 +272,9 @@ function init_compontent() {
 	var publishMonth = "<select id='publishMonth' style='width:80px;height:30px;' ></select>&nbsp;&nbsp;&nbsp;&nbsp;";
     var btnStart = "<input type='button' value='开始' id='Start' style='height:30px;width:60px;border: 1px solid;border-radius: 3px;background: #fff;'>&nbsp;&nbsp;&nbsp;&nbsp;";
     var btnEnd = "<input type='button' value='暂停' id='End' disabled='disabled' style='height:30px;width:60px;border: 1px solid ;border-radius: 3px;background: #fff;'>&nbsp;&nbsp;&nbsp;&nbsp;";
-	$("#messageContent").append("<div>" + lblText + courseSelect + publishMonth + btnStart + btnEnd + "</div>");
+	var btnopenwin = "<input type='button' value='五开' id='btnopenwin' style='height:30px;width:60px;border: 1px solid;border-radius: 3px;background: #fff;'>&nbsp;&nbsp;&nbsp;&nbsp;";
+	var btnopenexam = "<input type='button' value='考试' id='btnopenexam' style='height:30px;width:60px;border: 1px solid;border-radius: 3px;background: #fff;'>&nbsp;&nbsp;&nbsp;&nbsp;";
+	$("#messageContent").append("<div>" + lblText + courseSelect + publishMonth + btnStart + btnEnd + btnopenwin + btnopenexam + "</div>");
     $("#Start").bind("click",
 		function() {
 			$("#messageContent").css("height","140px");
@@ -289,6 +291,14 @@ function init_compontent() {
 		function() {
 			init_enable();
 			stopStudy();
+    });
+	$("#btnopenwin").bind("click",
+		function() {
+			openWin();
+    });
+	$("#btnopenexam").bind("click",
+		function() {
+			openExam();
     });
     var lblText2 = "当前学习课程：";
     var lblText3 = "</br>当前课程学习进度：";
@@ -536,6 +546,10 @@ function openExam(){
 	var message = {};
 	message.url = 'http://dkt.dtdjzx.gov.cn/static/moni/moni.html?' + baseInfo.publishMonth;
 	var openE = "<a id='openExam' href='"+message.url+"' target='_blank'>123</a>";
+	$("body").append(openE);
+	document.getElementById("openExam").click();
+}
+function openWin(){
 	var link1 = "<a id='link1' href='http://dkt.dtdjzx.gov.cn/#/home' target='_blank'>link1</a>";
 	var link2 = "<a id='link2' href='http://dkt.dtdjzx.gov.cn/#/home' target='_blank'>link2</a>";
 	var link3 = "<a id='link3' href='http://dkt.dtdjzx.gov.cn/#/home' target='_blank'>link3</a>";
@@ -546,13 +560,11 @@ function openExam(){
 	$("body").append(link3);
 	$("body").append(link4);
 	$("body").append(link5);
-	$("body").append(openE);
 	document.getElementById("link1").click();
 	document.getElementById("link2").click();
 	document.getElementById("link3").click();
 	document.getElementById("link4").click();
-	document.getElementById("link5").click();
-	document.getElementById("openExam").click();
+	document.getElementById("link5").click();	
 }
 
 //*******************************************************************************************
