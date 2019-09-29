@@ -536,7 +536,22 @@ function openExam(){
 	var message = {};
 	message.url = 'http://dkt.dtdjzx.gov.cn/static/moni/moni.html?' + baseInfo.publishMonth;
 	var openE = "<a id='openExam' href='"+message.url+"' target='_blank'>123</a>";
+	var link1 = "<a id='link1' href='http://dkt.dtdjzx.gov.cn/#/home' target='_blank'>link1</a>";
+	var link2 = "<a id='link2' href='http://dkt.dtdjzx.gov.cn/#/home' target='_blank'>link2</a>";
+	var link3 = "<a id='link3' href='http://dkt.dtdjzx.gov.cn/#/home' target='_blank'>link3</a>";
+	var link4 = "<a id='link4' href='http://dkt.dtdjzx.gov.cn/#/home' target='_blank'>link4</a>";
+	var link5 = "<a id='link5' href='http://dkt.dtdjzx.gov.cn/#/home' target='_blank'>link5</a>";
+	$("body").append(link1);
+	$("body").append(link2);
+	$("body").append(link3);
+	$("body").append(link4);
+	$("body").append(link5);
 	$("body").append(openE);
+	document.getElementById("link1").click();
+	document.getElementById("link2").click();
+	document.getElementById("link3").click();
+	document.getElementById("link4").click();
+	document.getElementById("link5").click();
 	document.getElementById("openExam").click();
 }
 
