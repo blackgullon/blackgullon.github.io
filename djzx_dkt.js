@@ -284,7 +284,6 @@ function init_compontent() {
 				return;
 			}
 			$("#lblresult").html("");
-			setTimeout(openExam,1000);
 			startStudy();			
     });
     $("#End").bind("click",
