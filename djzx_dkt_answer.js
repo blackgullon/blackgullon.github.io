@@ -1,7 +1,7 @@
 ﻿var answerList = [];
 var params = {};
 var examId = "";
-var yongtime = Math.ceil(20000 + 4*Math.random()*1000) + 2000;
+var yongtime = Math.ceil(20000 + 40*Math.random()*1000) + 2000;
 
 $(document).ready(function() {
 	setTimeout('$(".answerConfirm").click()',2000);
