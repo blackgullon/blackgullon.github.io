@@ -30,7 +30,7 @@ function jiaojuan(){
     	"userId": userId,
     	"examId": examId,
      	'questionList':answerList,
-    	'useTime': yongtime || ''
+    	'useTime': Math.floor(yongtime/1000) || ''
       }
       $.ajax({
       url: "http://dkt.dtdjzx.gov.cn/examination/postExamination",
