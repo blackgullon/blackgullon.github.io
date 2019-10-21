@@ -62,7 +62,7 @@ function jiaojuan(){
 		$('.jiaojuan').addClass('W_jiaoquancol'); */
 		var message = {};
 		message.type = "result";
-		message.message = totalScore+"分|"+yongtime+"秒";
+		message.message = totalScore+"分|"+Math.floor(yongtime/1000)+"秒";
 		chrome.extension.sendMessage(JSON.stringify(message),function(response){});
 		}
 	});  
