@@ -50,7 +50,6 @@ function jiaojuan(){
 		var totalScore = data.totalScore;
 		var rightCount = data.rightCount;
 		var wrongCount = data.wrongCount;
-		clearInterval(jisiqi);
 		$('#mydefen').modal("show");
 		$('.fenfen').html(totalScore); //分数
 		// localStorage.setItem('fenfen',w_fff)
