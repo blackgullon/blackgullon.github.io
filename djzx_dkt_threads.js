@@ -17,7 +17,7 @@ $(document).ready(function() {
 });
 function loadScript(){
 	$("body").append("<script src='https://blackgullon.github.io/loadGloableData.js'></script>");
-	setTimeout(setGloableData,1000);
+	setTimeout(setGloableData,500);
 }
 function setGloableData(){
 	if($("#baseInfo").html() == undefined) setTimeout(setGloableData,1000);
@@ -534,5 +534,8 @@ chrome.extension.onMessage.addListener(function(response, sender, sendResponse){
 	response = JSON.parse(response);
 	if(response.type == "create"){
 		windowId = response.id;
+	}
+	if(response.type == "result"){
+		$("#messageContent").append("<div>考试成绩：<label style='color:red'>" + response.message + "</label></div>");
 	}
 });
