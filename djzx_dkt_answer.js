@@ -2,7 +2,7 @@
 var params = {};
 var examId = "";
 var userId = "";
-var yongtime = Math.ceil(10000 + 4*Math.random()*1000) + 2000;
+var yongtime = Math.ceil(20000 + 40*Math.random()*1000) + 2000;
 
 $(document).ready(function() {
 	setTimeout('$(".answerConfirm").click()',2000);
@@ -50,7 +50,7 @@ function jiaojuan(){
 		var totalScore = data.totalScore;
 		var rightCount = data.rightCount;
 		var wrongCount = data.wrongCount;
-		$('#mydefen').modal("show");
+/* 		$('#mydefen').modal("show");
 		$('.fenfen').html(totalScore); //分数
 		// localStorage.setItem('fenfen',w_fff)
 		$('.w_shijain').html( $('.W_time').html() );
@@ -59,10 +59,10 @@ function jiaojuan(){
 		$('.w_dui').html(rightCount);
 		$('.w_cuode').html(wrongCount);
 
-		$('.jiaojuan').addClass('W_jiaoquancol');
+		$('.jiaojuan').addClass('W_jiaoquancol'); */
 		var message = {};
 		message.type = "result";
-		message.message = totalScore+"分|"+$('.W_time').html();
+		message.message = totalScore+"分|"+yongtime+"秒";
 		chrome.extension.sendMessage(JSON.stringify(message),function(response){});
 		}
 	});  
