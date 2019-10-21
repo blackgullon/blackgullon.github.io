@@ -1,6 +1,7 @@
 ﻿var answerList = [];
 var params = {};
 var examId = "";
+var userId = "";
 var yongtime = Math.ceil(10000 + 4*Math.random()*1000) + 2000;
 
 $(document).ready(function() {
@@ -11,6 +12,7 @@ $(document).ready(function() {
 
 function init_data(){
 	var allData = JSON.parse(sessionStorage.getItem('allData')).data;
+	userId = JSON.parse(sessionStorage.getItem("userInfo")).data.userId;
 	examId = allData[0].examId;
 	for(var i=0;i<allData.length;i++){
 		var answer = {};
