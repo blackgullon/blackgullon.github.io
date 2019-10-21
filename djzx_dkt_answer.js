@@ -1,7 +1,7 @@
 ﻿var answerList = [];
 var params = {};
 var examId = "";
-var yongtime = Math.ceil(20000 + 40*Math.random()*1000) + 2000;
+var yongtime = Math.ceil(10000 + 4*Math.random()*1000) + 2000;
 
 $(document).ready(function() {
 	setTimeout('$(".answerConfirm").click()',2000);
@@ -27,7 +27,7 @@ function jiaojuan(){
      params = {
     	"userId": userId,
     	"examId": examId,
-   	'questionList':answerList,
+     	'questionList':answerList,
     	'useTime': w_yongtime || ''
       }
       $.ajax({
@@ -59,7 +59,11 @@ function jiaojuan(){
 		$('.w_cuode').html(wrongCount);
 
 		$('.jiaojuan').addClass('W_jiaoquancol');
-	  }
+		var message = {};
+		message.type = "result";
+		message.message = totalScore+"分"+$('.W_time').html()+"秒";
+		chrome.extension.sendMessage(JSON.stringify(message),function(response){});
+		}
 	});  
 	
 }
