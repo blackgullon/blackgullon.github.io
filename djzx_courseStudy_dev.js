@@ -264,7 +264,7 @@ function init_alreadystudylist(){
 				alreayStudyList.push(tempCourse);
 				temptotaltime += dataSource.data[i].courseHour;
 			}
-			if(totalTime - temptotaltime >=50){
+			if(totalTime - temptotaltime >=100){
 				setTimeout(init_alreadystudylist,1500);
 				return;
 			}
