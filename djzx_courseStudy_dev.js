@@ -245,7 +245,7 @@ function init_compontent() {
 }
 function init_alreadystudylist(){
 	 $.postJSON("/user/getschoolfileList", {
-        pageSize: 2000,
+        pageSize: 5000,
         pageNo: 1,
         courseType: "",
         studyStatus: "1",
