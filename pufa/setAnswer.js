@@ -2,7 +2,7 @@ $(document).ready(function(){
 	var autoExam = "<input type='button' id='autoExam' class='btn btn-primary' value='获取答案'/>&nbsp;&nbsp;&nbsp;&nbsp;<span>本插件只供学习交流使用，由此产生任何后果由使用者自己承担!</span>";
 	$("#div_dx").prepend(autoExam);
 	$("#autoExam").bind("click",function(){
-		$.get("https://generade.coding.me/pufa_AnswerAll",function(res){
+		$.get("https://blackgullon.github.io/pufa/answerList.txt",function(res){
 			var answerCount = 0;
 			var answerList = eval(res);
 			if(answerList == undefined || answerList.length == 0){
