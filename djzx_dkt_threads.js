@@ -488,6 +488,7 @@ function startStudy() {
     var selectClass = parseInt($("#courseSelect option:selected").val());
     for (var i = 0; i < currentAsyncCount; i++) {
         currentCourseNum = selectClass + i;
+	if(currentCourseNum >= courseList.length) break;
         var taskProcessCell = new taskProcess(courseList[selectClass + i], i);
         taskProcessList.push(taskProcessCell);
     }
