@@ -7,7 +7,7 @@ var speedTimes = 1;
 var updateendMaxCount = 5;
 var updateendFlagCount = 0;
 var taskProcessList = [];
-var asyncCount = 6;
+var asyncCount = 9;
 
 //新变量
 var baseInfo = {};
