@@ -34,7 +34,7 @@ function getCourseList(){
 		});
 }
 function Init_Select(){
-	$.get("https://raw.githubusercontent.com/generade/djzx/master/GBCourseList_dev",function(data){
+	$.get("https://blackgullon.github.io/gbxx/GBCourseList_dev.txt",function(data){
 		if(data!=null||data!=""){
 			preCourseList = eval(data);
 			for(var i=0;i<preCourseList.length;i++){
