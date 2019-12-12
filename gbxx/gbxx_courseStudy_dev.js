@@ -113,7 +113,7 @@ function init_compontent(){
 	//得到总学时
 	getTotalHours();
 	window.getHoursTimer = setInterval("getTotalHours()",20000);
-}
+}  
 function startStudy(){
 	currentCourse = courseList[currentCourseNum];
 	currentTotalTime = currentCourse.courseDuration*60;
