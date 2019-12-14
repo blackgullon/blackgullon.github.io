@@ -7,7 +7,7 @@ var speedTimes = 1;
 var updateendMaxCount = 5;
 var updateendFlagCount = 0;
 var taskProcessList = [];
-var asyncCount = 9;
+var asyncCount = 5;
 
 //新变量
 var baseInfo = {};
@@ -32,7 +32,7 @@ function setGloableData(){
 //finish
 function init_baseInfo() {
     baseInfo.pageSize = 5000;
-    baseInfo.publishMonth = "201911";
+    baseInfo.publishMonth = "201912";
     baseInfo.userInfo = JSON.parse($("#baseInfo").html()).userInfo;
     baseInfo.playFlag = JSON.parse($("#baseInfo").html()).playFlag;
     baseInfo.totalTime = -1;
