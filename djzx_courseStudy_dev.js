@@ -1,5 +1,4 @@
-$("body").append("<script src='https://generade.github.io/jszip-utils.min.js'></script>");
-$("body").append("<script src='https://generade.github.io/jszip.min.js'></script>");
+var baseInfo = {};
 var alreayStudyList = [];
 var courseList = [];
 var preCourseList = [];
@@ -23,129 +22,55 @@ var updateendFlagCount = 0;
 
 $(document).ready(function() {
     setTimeout(function(){
+		init_baseInfo();
 		init_compontent();
 		init_alreadystudylist();
 	},1000);
 });
-function getTotalHours() {
-    $.postJSON("/user/getOutTime", {
-        year: "2019",
-        userId: ""
-    }).then(function success(data) {
-        if (typeof(data) != "undefined") {
-            totalTime = data.totalHours;
-            $("#lblTotalTime").html("<font color='red'>" + totalTime + "</font>");
-            $("title").text(totalTime);
-            if (totalTime >= parseInt($("#iptTime").val())) stopStudy();
-        }
-		else setTimeout(getTotalHours,5000);
-    },function error(e){
-		setTimeout(getTotalHours,5000);
-	});
-}
-function updateEnd(){
-    getStudyTimes = Math.floor(preProject.courseDuration * 60);
-    console.log("get studyTime;" + getStudyTimes);
-    var appKey = userId;
-    if (preProject.studyStatus != "2") {
-        var receive = {
-            timelength: preProject.courseDuration,
-            courseId: preProject.courseId,
-            userId: appKey,
-            studyTimes: getStudyTimes
+function init_baseInfo(){
+	baseInfo.year = sessionStorage.getItem("maxYear");
+	baseInfo.recordProgress = 10;
+	baseInfo.getTotalHours = function(){
+		var postData = {
+            userId: baseInfo.userInfo.userId,
+            year: baseInfo.year
         };
-        var requestParam = {
-            courseId: preProject.courseId,
-            userId: appKey,
-            studyTimes: getStudyTimes
-        };
-        var timestamp = new Date().getTime();
-        var nonce = guid();
-        var signatureType = "MD5";
-        var authType = "ACCESSKEY";
-        var signatureVersion = "1";
-        var requestUri = "/bintang/recordProgress";
-        var signature=sign(appKey,appSecret,requestUri,timestamp,nonce,requestParam);
-        var signatureEntity = {
-            "appKey": appKey,
-            "timestamp": timestamp,
-            "nonce": nonce,
-            "signatureType": signatureType,
-            "authType": authType,
-            "signatureVersion": signatureVersion,
-            "requestUri": requestUri,
-            "signature": signature
-        };
-        $.postJSON("/bintang/updateTimeEnd", {
-            "signatureEntity": signatureEntity,
-            "receive": receive
-        }).then(function success(data) {
-			if(typeof(data) == "undefined"){
-				updateendFlagCount++;
-				if(updateendFlagCount < updateendMaxCount){
-					setTimeout(updateEnd,3000);
+        var requestUri = "/api/study/times/new";
+        $.ajax({
+            url: requestUri,
+            type: 'post',
+            data: JSON.stringify(postData),
+            contentType: 'application/json;charset=utf-8',     
+			success: function(data){
+				if (typeof(data) != "undefined") {
+					totalTime = data.totalHours;
+					$("#lblTotalTime").html("<font color='red'>" + totalTime + "</font>");
+					$("title").text(totalTime);
+					if (totalTime >= parseInt($("#iptTime").val())) stopStudy();
 				}
-				else {
-					updateendFlagCount = 0;
-				}				
-			}
-            if(data.isRecord == false) {
-				updateendFlagCount++;
-				if(updateendFlagCount < updateendMaxCount){
-					setTimeout(updateEnd,3000);
+				else setTimeout(baseInfo.getTotalHours,5000);
+			}　　
+        });
+	}
+	baseInfo.getUserInfo = function(){
+		var requestUri = "/api/user/info";
+		$.ajax({
+            url: requestUri,
+            type: 'post',
+            contentType: 'application/json;charset=utf-8',    
+			async: false,
+			success: function(data){
+				if (typeof(data) != "undefined") {
+					baseInfo.userInfo = data.data;
+					baseInfo.getTotalHours();
 				}
-				else {
-					updateendFlagCount = 0;
-				}
-			}
-        },function error(e) {
-			setTimeout(updateEnd,3000);
-		});
-    }
-}
-function StudyProgress() {
-    getStudyTimes = Math.ceil(currentPlayTime);
-    var appKey = userId;
-    var receive = {
-        timelength: project.courseDuration,
-        courseId: project.courseId,
-        userId: appKey,
-        studyTimes: getStudyTimes
-    };
-    var requestParam = {
-        courseId: project.courseId,
-        userId: appKey,
-        studyTimes: getStudyTimes
-    };
-    var timestamp = new Date().getTime();
-    var nonce = guid();
-    var signatureType = "MD5";
-    var authType = "ACCESSKEY";
-    var signatureVersion = "1";
-    var requestUri = "/bintang/recordProgress";
-    var signature = sign(appKey, appSecret, requestUri, timestamp, nonce, requestParam);
-    var signatureEntity = {
-        "appKey": appKey,
-        "timestamp": timestamp,
-        "nonce": nonce,
-        "signatureType": signatureType,
-        "authType": authType,
-        "signatureVersion": signatureVersion,
-        "requestUri": requestUri,
-        "signature": signature
-    };
-    $.postJSON("/bintang/recordProgress", {
-        "signatureEntity": signatureEntity,
-        "receive": receive
-    }).then(function(data) {
-        if (data.isRecord == false) {
-            returnTime = true;
-        }
-        project.studyTimes = getStudyTimes;
-        console.log("learntime:" + project.studyTimes);
-    });
+				else setTimeout(baseInfo.getUserInfo,3000);
+			}　　
+        });
+	}();
+} 
 
-}
+
 function catEndTime() {
     var totalStudyTime = parseInt($("#iptTime").val());
     var getTotalMins = 0;
@@ -171,7 +96,7 @@ function validateSet(){
 			return false;
 		}
 	}
-	if(totalTime == -1){
+	if(baseInfo.totalTime == -1){
 		$("#lblresult").html("累计学时没有获取成功，请刷新页面重试。");
 		return false;
 	}
@@ -241,40 +166,48 @@ function init_compontent() {
         $("#lblCurrentCourseTitle").html("<font color='red'>" + $("#courseSelect option:selected").text() + "</font>");
     });
 	$("#lblresult").html("正在初始化，请稍后。。。");
-    getTotalHours();
 }
 function init_alreadystudylist(){
-	 $.postJSON("/user/getschoolfileList", {
+	
+	var postData = {
+		orgCode: baseInfo.userInfo.orgCode,
         pageSize: 5000,
         pageNo: 1,
-        courseType: "",
         studyStatus: "1",
-        year: "2019"
-    }).then(function(dataSource) {
-		if (typeof(dataSource) != "undefined") {
-			if(dataSource.data == null){
+		userId: baseInfo.userInfo.userId,
+        year: baseInfo.year
+	};
+	var requestUri = "/api/study/my/courses";
+	
+	$.ajax({
+        url: requestUri,
+        type: 'post',
+		data: JSON.stringify(postData),
+        contentType: 'application/json;charset=utf-8',    
+		success: function(dataSource){
+			if (typeof(dataSource) != "undefined") {
+				if(dataSource.data == null){
+					init_alllist();
+					return;
+				}			
+				var temptotaltime = 0;
+				for(var i=0;i<dataSource.data.length;i++){
+					var tempCourse = {};
+					tempCourse.courseHour = dataSource.data[i].courseHour;
+					tempCourse.courseId = dataSource.data[i].courseId;
+					alreayStudyList.push(tempCourse);
+					temptotaltime += dataSource.data[i].courseHour;
+				}
+				if(totalTime - temptotaltime >=100){
+					setTimeout(init_alreadystudylist,1500);
+					return;
+				}
 				init_alllist();
-				return;
-			}			
-			var temptotaltime = 0;
-            for(var i=0;i<dataSource.data.length;i++){
-				var tempCourse = {};
-				tempCourse.courseHour = dataSource.data[i].courseHour;
-				tempCourse.courseId = dataSource.data[i].courseId;
-				alreayStudyList.push(tempCourse);
-				temptotaltime += dataSource.data[i].courseHour;
-			}
-			if(totalTime - temptotaltime >=100){
-				setTimeout(init_alreadystudylist,1500);
-				return;
-			}
-			init_alllist();
-        } else {
-			setTimeout(init_alreadystudylist,3000);
-        }	
-    },function error(e) {
-		setTimeout(init_alreadystudylist,5000);
-	});
+			} else {
+				setTimeout(init_alreadystudylist,3000);
+			}	
+		}　　
+    });
 }
 function init_alllist(){
 	var base = new Base64();
@@ -346,7 +279,7 @@ function startNext(){
     currentPlayTime = 0;
     currentCourseNum++;
 	preProject = project;
-	getTotalHours();
+	baseInfo.getTotalHours();
 	if(nextable() == false) return;
 	startStudy();
 }
@@ -354,39 +287,48 @@ function startStudy() {
     currentCourse = courseList[currentCourseNum];
     currentTotalTime = currentCourse.courseDuration * 60;
     project = currentCourse;
-	getTotalHours();
+	baseInfo.getTotalHours();
 	setTimeout(catEndTime,3000);
     addTimeCount();
 }
 function addTimeCount() {
 	$("#lblCurrentCourseTitle").html("<font color='red'>" + courseList[currentCourseNum].courseName + "（时长：" + courseList[currentCourseNum].courseDuration + "分钟|学时：" + courseList[currentCourseNum].courseHour + "）</font>");
-    $.postJSON("/bintang/addTimeCount", currentCourse, ).then(function success(data) {
-        var code = data.code;
-        console.log(data.isRecord);
-		if(data.isRecord == true){
-			if(addtimeFlagCount>0){
-				addtimeFlagCount = 0;
-				$("#lblresult").html("");
-			}			
-			currentCourse.studyTimes = currentCourse.studyTimes ? currentCourse.studyTimes: 0;
-			startStudyProcess();
-		}
-		else {
-			addtimeFlagCount++;
-			if(addtimeFlagCount < addtimeMaxCount) {
-				setTimeout(addTimeCount,5000);
-				$("#lblresult").html("当前学习课程没有记录，正在重试。。。");
+	var postData = {
+		courseId: currentCourse.courseId,
+		userId: baseInfo.userInfo.userId
+	}
+	var requestUri = "/api/study/start";
+	
+	$.ajax({
+        url: requestUri,
+        type: 'post',
+		data: JSON.stringify(postData),
+        contentType: 'application/json;charset=utf-8',    
+		success: function(data){
+			console.log("begin");
+			if(data.success == true){
+				if(addtimeFlagCount>0){
+					addtimeFlagCount = 0;
+					$("#lblresult").html("");
+				}			
+				currentCourse.studyTimes = currentCourse.studyTimes ? currentCourse.studyTimes: 0;
+				startStudyProcess();
 			}
 			else {
-				addtimeFlagCount = 0;
-				addtimeAllCount++;
-				startNext();
-			}
+				addtimeFlagCount++;
+				if(addtimeFlagCount < addtimeMaxCount) {
+					setTimeout(addTimeCount,5000);
+					$("#lblresult").html("当前学习课程没有记录，正在重试。。。");
+				}
+				else {
+					addtimeFlagCount = 0;
+					addtimeAllCount++;
+					startNext();
+				}
 			
-		}
-    },function error(e){
-		setTimeout(addTimeCount,5000);
-	});
+			}
+		}　　
+    });
 }
 function startStudyProcess() {
 	if(nextable() == false) {
@@ -397,37 +339,59 @@ function startStudyProcess() {
     currentPlayTime += speedTimes;
     studyPercent = parseInt(currentPlayTime / currentTotalTime * 100) == 100 ? 100 : parseInt(currentPlayTime / currentTotalTime * 100);
     $("#currentPlayTime").html("<font color='red'>" + studyPercent + "%</font>");
-    var recordProgress = getSetLearnTime2();
-	if (currentPlayTime % recordProgress == 0) {		
-        StudyProgress();
+	if (currentPlayTime % baseInfo.recordProgress == 0) {		
+        StudyProgress(currentPlayTime);
 	}
-    if (currentPlayTime > currentTotalTime) {
+    if (currentPlayTime > (currentTotalTime + 5)) {
 		studyCount = 0;
         currentPlayTime = 0;
 		preProject = project;
-        updateEnd();
+        updateEnd(currentPlayTime);
 		setTimeout(startNext,3000);
 		return;
     } 
 	else setTimeout(startStudyProcess,1000);
 }
+function StudyProgress(currentPlayTime){
+	var postData = {
+		courseId: currentCourse.courseId,
+		studyTimes: currentPlayTime,
+		userId: baseInfo.userInfo.userId
+	}
+	var requestUri = "/api/study/progress";
+	$.ajax({
+        url: requestUri,
+        type: 'post',
+		data: JSON.stringify(postData),
+        contentType: 'application/json;charset=utf-8',    
+		success: function(data){
+			console.log(data.success + " 记录学时，当前播放时间:" + currentPlayTime);
+		}　　
+    });
+}
+function updateEnd(currentPlayTime){
+	var postData = {
+		courseId: currentCourse.courseId,
+		userId: baseInfo.userInfo.userId
+	}
+	var requestUri = "/api/study/end";
+	$.ajax({
+        url: requestUri,
+        type: 'post',
+		data: JSON.stringify(postData),
+        contentType: 'application/json;charset=utf-8',    
+		success: function(data){
+			console.log(data.success + "播放结束，当前播放时间:" + currentPlayTime);
+		}　　
+    });
+}
+
 function stopStudy() {
     currentPlayTime = 0;
     studyCount = 0;
 	init_enable();
 }
-function getSetLearnTime2() {
-    var vLength = currentCourse.courseDuration * 60;
-    if (vLength > 0 && vLength <= 300) { 
-        return (vLength / 2);
-    } else if (vLength > 300 && vLength <= 600) { 
-        return 3 * 60;
-    } else if (vLength > 600 && vLength <= 1800) {
-        return 5 * 60;
-    } else if (vLength > 1800) {
-        return 10 * 60;
-    }
-}
+
 function timeFormat(nowTime) {
     var time = new Date(nowTime);
     var yy = time.getFullYear();
