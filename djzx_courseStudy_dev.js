@@ -342,7 +342,7 @@ function startStudyProcess() {
 	if (currentPlayTime % baseInfo.recordProgress == 0) {		
         StudyProgress(currentPlayTime);
 	}
-    if (currentPlayTime > (currentTotalTime + 5)) {
+    if (currentPlayTime > currentTotalTime) {
 		studyCount = 0;
         currentPlayTime = 0;
 		preProject = project;
