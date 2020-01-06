@@ -33,7 +33,7 @@ function init_baseInfo(){
 	baseInfo.getTotalHours = function(){
 		var postData = {
             userId: baseInfo.userInfo.userId,
-            year: baseInfo.year
+            year: parseInt(baseInfo.year)
         };
         var requestUri = "/api/study/times/new";
         $.ajax({
