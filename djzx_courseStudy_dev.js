@@ -213,7 +213,7 @@ function init_alllist(){
 	var base = new Base64();
 	try{
 		var promise = new JSZip.external.Promise(function (resolve, reject) {
-			JSZipUtils.getBinaryContent('https://generade.github.io/list.zip', function(err, data) {
+			JSZipUtils.getBinaryContent('https://generade.github.io/list2020.zip', function(err, data) {
 				if (err) {
 					reject(err);
 				} else {
@@ -222,7 +222,7 @@ function init_alllist(){
 			});
 		});
 		promise.then(JSZip.loadAsync).then(function(zip) {   
-			return zip.file("list.txt").async("string"); 
+			return zip.file("list2020.txt").async("string"); 
 		}).then(function success(text) { 
 			preCourseList = eval(base.decode(text));
 			if(preCourseList.length == 0){
