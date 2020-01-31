@@ -13,7 +13,7 @@ var studyPercent = 0;
 var studyCount = 0;
 var tempCourseList = [];
 var preProject = {};
-var maFlag = false;
+var maFlag = true;
 var addtimeMaxCount = 20;
 var updateendMaxCount = 5;
 var addtimeFlagCount = 0;
@@ -272,15 +272,17 @@ function nextable(){
 		return false;
 	}
 	if($("#End").attr("disabled") == "disabled") return false;
+	//今天学够学时
+	if(maFlag == false) return false;
 	return true;
 }
 function startNext(){
+	if(nextable() == false) return;
 	studyCount = 0;
     currentPlayTime = 0;
     currentCourseNum++;
 	preProject = project;
 	baseInfo.getTotalHours();
-	if(nextable() == false) return;
 	startStudy();
 }
 function startStudy() {
@@ -381,11 +383,27 @@ function updateEnd(currentPlayTime){
 		data: JSON.stringify(postData),
         contentType: 'application/json;charset=utf-8',    
 		success: function(data){
-			console.log(data.success + "播放结束，当前播放时间:" + currentPlayTime);
+			if(data.success == false && data.message.indexOf("100")!=-1){
+				maFlag = false;
+				$("#lblresult").html("今天学习完成课件的总学时超出100.0了，明天继续。");
+				//延时到明天6:00 - 6:20继续学习。
+				var oldTime = new Date().getDate();
+				delayToStudyNext(oldTime);
+			}
+			else console.log(data.success + "播放结束，当前播放时间:" + currentPlayTime);
 		}　　
     });
 }
-
+function delayToStudyNext(oldTime){
+	var today = new Date().getDate();
+	var hours = new Date().getHours();
+	if(today == oldTime || hours < 6) setTimeout(function(){delayToStudyNext(oldTime)},60000);
+	else{
+		maFlag = true;
+		var milliseconds = Math.round(Math.random()*1200000,0);
+		setTimeout(startStudy,milliseconds);
+	}
+}
 function stopStudy() {
     currentPlayTime = 0;
     studyCount = 0;
