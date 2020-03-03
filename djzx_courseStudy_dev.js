@@ -261,6 +261,7 @@ function init_studylist(){
     }
     $("#courseSelect").html(selectOptions);
 	$("#lblresult").html("数据初始化完毕，可以进行学习了。");
+	$("#iptTime").focus();
 }
 function nextable(){
 	if(currentCourseNum >= courseList.length){
