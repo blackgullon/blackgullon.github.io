@@ -48,6 +48,7 @@ function init_baseInfo(){
 					$("title").text(totalTime);
 					if (totalTime >= parseInt($("#iptTime").val())) stopStudy();
 				}
+                                else if(data.success == false) setTimeout(baseInfo.getTotalHours,5000);
 				else setTimeout(baseInfo.getTotalHours,5000);
 			}　　
         });
@@ -64,6 +65,7 @@ function init_baseInfo(){
 					baseInfo.userInfo = data.data;
 					baseInfo.getTotalHours();
 				}
+else if(data.success == false) setTimeout(baseInfo.getTotalHours,5000);
 				else setTimeout(baseInfo.getUserInfo,3000);
 			}　　
         });
