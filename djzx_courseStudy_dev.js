@@ -386,7 +386,7 @@ function updateEnd(currentPlayTime){
 		data: JSON.stringify(postData),
         contentType: 'application/json;charset=utf-8',    
 		success: function(data){
-			if(data.success == false && data.message.indexOf("100")!=-1){
+			if(data.success == false && data.message.indexOf("总时长超出")!=-1){
 				maFlag = false;
 				$("#lblresult").html("今天学习完成课件的总学时超出100.0了，明天继续。");
 				//延时到明天6:00 - 6:20继续学习。
