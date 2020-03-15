@@ -388,7 +388,7 @@ function updateEnd(currentPlayTime){
 		success: function(data){
 			if(data.success == false && data.message.indexOf("总时长超出")!=-1){
 				maFlag = false;
-				$("#lblresult").html("今天学习完成课件的总学时超出100.0了，明天继续。");
+				$("#lblresult").html("今天学习完成课件的总时长超出24小时了，明天继续。");
 				//延时到明天6:00 - 6:20继续学习。
 				var oldTime = new Date().getDate();
 				delayToStudyNext(oldTime);
