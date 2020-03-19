@@ -50,7 +50,10 @@ function init_baseInfo(){
 				}
                                 else if(data.success == false) setTimeout(baseInfo.getTotalHours,5000);
 				else setTimeout(baseInfo.getTotalHours,5000);
-			}　　
+			},
+			error:function(){
+				setTimeout(baseInfo.getTotalHours,5000);
+			}
         });
 	}
 	baseInfo.getUserInfo = function(){
@@ -332,7 +335,19 @@ function addTimeCount() {
 				}
 			
 			}
-		}　　
+		},
+		error:function(){
+			addtimeFlagCount++;
+			if(addtimeFlagCount < addtimeMaxCount) {
+				setTimeout(addTimeCount,5000);
+				$("#lblresult").html("当前学习课程没有记录，正在重试。。。");
+			}
+			else {
+				addtimeFlagCount = 0;
+				addtimeAllCount++;
+				startNext();
+			}
+		}
     });
 }
 function startStudyProcess() {
