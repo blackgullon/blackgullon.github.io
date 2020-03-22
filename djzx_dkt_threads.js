@@ -4,7 +4,7 @@ var preCourseList = [];
 var allCourseList = [];
 var currentCourseNum = 0;
 var speedTimes = 1;
-var updateendMaxCount = 5;
+var updateendMaxCount = 4;
 var updateendFlagCount = 0;
 var taskProcessList = [];
 var asyncCount = 20;
@@ -31,8 +31,8 @@ function setGloableData(){
 }
 //finish
 function init_baseInfo() {
-    baseInfo.pageSize = 5000;
-    baseInfo.publishMonth = "202001";
+    baseInfo.pageSize = 1000;
+    baseInfo.publishMonth = "202003";
     baseInfo.userInfo = JSON.parse($("#baseInfo").html()).userInfo;
     baseInfo.playFlag = JSON.parse($("#baseInfo").html()).playFlag;
     baseInfo.totalTime = -1;
