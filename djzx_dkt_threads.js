@@ -4,10 +4,10 @@ var preCourseList = [];
 var allCourseList = [];
 var currentCourseNum = 0;
 var speedTimes = 1;
-var updateendMaxCount = 4;
+var updateendMaxCount = 20;
 var updateendFlagCount = 0;
 var taskProcessList = [];
-var asyncCount = 20;
+var asyncCount = 4;
 
 //新变量
 var baseInfo = {};
