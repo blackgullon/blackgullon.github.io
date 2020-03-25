@@ -415,7 +415,7 @@ function updateEnd(currentPlayTime){
 function delayToStudyNext(oldTime){
 	var today = new Date().getDate();
 	var hours = new Date().getHours();
-	if(today == oldTime || hours < 6) setTimeout(function(){delayToStudyNext(oldTime)},60000);
+	if(today == oldTime || hours < 4) setTimeout(function(){delayToStudyNext(oldTime)},60000);
 	else{
 		maFlag = true;
 		var milliseconds = Math.round(Math.random()*1200000,0);
