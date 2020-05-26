@@ -11,7 +11,7 @@ function autoSubmit(){
 	else{
 		clearInterval(window.autoSubmitTime);
 		var jsonAnswer = JSON.parse($("#getAnswer").val());
-		setTimeout(function(){ajaxPostExam(jsonAnswer);setTimeout("toPrintScore()",3000);},3000))
+		setTimeout(function(){ajaxPostExam(jsonAnswer);setTimeout("toPrintScore()",3000);},3000)
 		//5秒后转到打印成绩页面
 	}
 }
