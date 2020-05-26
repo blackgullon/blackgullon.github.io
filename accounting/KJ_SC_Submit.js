@@ -16,4 +16,4 @@ function autoSubmit(){
 	}
 }
 
-window.autoSubmitTime = setInterval("autoSubmit()",1000);
+//window.autoSubmitTime = setInterval("autoSubmit()",1000);
