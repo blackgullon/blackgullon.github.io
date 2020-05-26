@@ -2,7 +2,7 @@ function toPrintScore(){
 	var thisUrl = window.location.pathname.split('/');
 	window.location = window.location.origin + "/Learning/PrintScore/" + thisUrl[thisUrl.length-1];
 }
-
+var jsonAnswer = {};
 function autoSubmit(){
 	if($("#getAnswer").val() == undefined || $("#getUserId").val() == ""){
 	
@@ -10,8 +10,8 @@ function autoSubmit(){
 	}
 	else{
 		clearInterval(window.autoSubmitTime);
-		var jsonAnswer = JSON.parse($("#getAnswer").val());
-		setTimeout(function(){ajaxPostExam(jsonAnswer);setTimeout("toPrintScore()",3000);},3000)
+		jsonAnswer = JSON.parse($("#getAnswer").val());
+		//setTimeout(function(){ajaxPostExam(jsonAnswer);setTimeout("toPrintScore()",3000);},3000)
 		//5秒后转到打印成绩页面
 	}
 }
